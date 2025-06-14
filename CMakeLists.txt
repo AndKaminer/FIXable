@@ -7,7 +7,7 @@ include_directories(include)
 
 file(GLOB FIX_SOURCES src/fix/*.cpp src/net/*.cpp)
 
-add_executable(fix_server src/main.cpp ${FIX_SOURCES})
+add_executable(fix_server.out src/main.cpp ${FIX_SOURCES})
 
 #add_subdirectory(third_party/spdlog)
 
