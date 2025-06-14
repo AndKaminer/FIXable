@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <cstring>
 
+#include <spdlog/spdlog.h>
+
 TCPServer::TCPServer(int maxConnections) {
     this->maxConnections = maxConnections;
     serverSocket = -1;
@@ -27,13 +29,13 @@ bool TCPServer::initSocket(uint16_t port) {
     setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
     if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
-        std::cerr << "Error binding socket" << std::endl;
+        spdlog::error("Error binding socket");
         close(serverSocket);
         return false;
     }
 
     if (listen(serverSocket, maxConnections) == -1) {
-        std::cerr << "Error listening on socket" << std::endl;
+        spdlog::error("Error listening on socket");
         close(serverSocket);
         return false;
     }
@@ -57,7 +59,7 @@ int TCPServer::acceptClient() {
     socklen_t clientAddressSize = sizeof(clientAddress);
     clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
     if (clientSocket == -1) {
-        std::cerr << "Error accepting connection" << std::endl;
+        spdlog::error("Error accepting connection");
         return -1;
     }
 
@@ -69,7 +71,7 @@ std::string TCPServer::readFromClient() {
     memset(buffer, 0, sizeof(buffer));
     ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
     if (bytesRead == 0) {
-        std::cerr << "Client disconnected" << std::endl;
+        spdlog::info("Client disconnected");
         return "";
     }
     return std::string(buffer, bytesRead);
@@ -79,7 +81,7 @@ bool TCPServer::writeToClient(const std::string& data) {
     size_t strLength = data.length();
     int bytesSent = send(clientSocket, data.c_str(), strLength, 0);
     if (bytesSent == -1) {
-        std::cerr << "Error writing to client" << std::endl;
+    spdlog::error("Error writing to client");
         return false;
     }
     return true;
@@ -103,7 +105,7 @@ void TCPServer::run() {
     }
 
     acceptClient();
-    std::cout << "Client connected" << std::endl;
+    spdlog::info("Client connected");
     std::string clientMessage { readFromClient() };
     while (clientMessage != "") {
         if (!writeToClient(clientMessage)) {
