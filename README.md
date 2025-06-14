@@ -1,2 +1,2 @@
 # FIXable
-A PoC Financial Informatioin eXchange (FIX) Protocol server
+A simple implementation of Financial Informatioin eXchange (FIX) 4.2
