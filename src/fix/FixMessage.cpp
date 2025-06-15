@@ -39,7 +39,7 @@ std::string FixMessage::toString() const {
 std::string FixMessage::toStringHR() const {
     std::string result;
     for (const auto& field : fields) {
-        result += std::to_string(field.tag) + "=" + field.value + '|';
+        result += std::to_string(field.tag) + "=" + field.value + '\n';
     }
     return result;
 }
@@ -56,5 +56,32 @@ bool FixMessage::operator==(const FixMessage& other) const {
             return false;
         }
     }
+    return true;
+}
+
+std::optional<FixField> FixMessage::getIthElement(size_t i) const {
+    if (i >= fields.size()) {
+        return std::nullopt;
+    }
+
+    return fields[i];
+}
+
+bool FixMessage::isValid() const {
+    // header check
+    
+    FixField invalidField;
+    invalidField.tag = -1;
+    invalidField.value = "";
+
+    if (!(getIthElement(0).value_or(invalidField).tag == 8)) return false;
+    if (!(getIthElement(1).value_or(invalidField).tag == 9)) return false;
+    if (!(getIthElement(2).value_or(invalidField).tag == 35)) return false;
+
+    // footer check
+    if (!getIthElement(fields.size() - 1).value_or(invalidField).tag == 10) {
+        return false;
+    }
+
     return true;
 }

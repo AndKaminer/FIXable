@@ -10,7 +10,7 @@ void FixSessionManager::handleFixMessage(const FixMessage& msg) {
         return;
     }
 
-    spdlog::info("Received FIX message type {}:\n{}", *type, msg.toString());
+    spdlog::info("Received FIX message type {}:\n{}", *type, msg.toStringHR());
     server.writeToClient(msg.toString());
 }
 
