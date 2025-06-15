@@ -19,6 +19,7 @@ public:
     std::string toStringHR() const;
     bool operator==(const FixMessage& other) const;
     bool isValid(bool checksum = false) const;
+    bool hasValidFormatFor(int tag) const;
 };
 
 #endif

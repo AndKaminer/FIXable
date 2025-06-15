@@ -67,6 +67,12 @@ std::optional<FixField> FixMessage::getIthElement(size_t i) const {
     return fields[i];
 }
 
+bool FixMessage::hasValidFormatFor(int tag) const {
+    switch (tag) {
+        default: return true;
+    }
+}
+
 bool FixMessage::isValid(bool checksum) const {
     // header check
     
@@ -98,6 +104,7 @@ bool FixMessage::isValid(bool checksum) const {
         return false;
     }
 
+    // body length check
     std::string fixStr = toString();
 
     size_t pos9 = fixStr.find("9=");
@@ -110,7 +117,8 @@ bool FixMessage::isValid(bool checksum) const {
         spdlog::warn("Body length mismatch: declared={}, actual={}", bodyLen, actualBodyLen);
         return false;
     }
-    
+
+    // checksum check
     if (checksum) {
         size_t checksumRangeEnd = endBody;
 
@@ -122,6 +130,13 @@ bool FixMessage::isValid(bool checksum) const {
 
         if (computedChecksum != checksum) {
             spdlog::warn("Checksum mismatch: declared={}, computed={}", checksum, computedChecksum);
+            return false;
+        }
+    }
+    
+    // valid format field
+    for (auto& it : fields) {
+        if (!hasValidFormatFor(it.tag)) {
             return false;
         }
     }
