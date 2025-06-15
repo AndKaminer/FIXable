@@ -14,6 +14,7 @@ public:
     void addField(int tag, const std::string& value);
     bool has(int tag) const;
     std::string toString() const;
+    std::string toStringHR() const;
     bool operator==(const FixMessage& other) const;
 };
 

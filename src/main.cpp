@@ -1,5 +1,4 @@
-#include "net/TCPServer.h"
-#include "fix/FixMessage.h"
+#include "fix/FixParser.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -9,13 +8,6 @@
 int main() {
     spdlog::set_level(spdlog::level::trace);
 
-    FixMessage fm = FixMessage();
-
-    fm.addField(1, "hello");
-    fm.addField(2, "goodbye");
-    spdlog::debug(fm.get(1).value_or(""));
-    spdlog::debug(fm.get(2).value_or(""));
-    spdlog::debug(fm.get(3).value_or(""));
-    fm.addField(2, "goodgood");
-    spdlog::debug(fm.get(2).value_or(""));
+    FixParser fp = FixParser('|');
+    spdlog::debug(fp.parseMessage("35=A|8=22|9=15|10=abc").value_or(FixMessage()).toStringHR());
 }

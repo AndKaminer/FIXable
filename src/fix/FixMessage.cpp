@@ -36,6 +36,14 @@ std::string FixMessage::toString() const {
     return result;
 }
 
+std::string FixMessage::toStringHR() const {
+    std::string result;
+    for (const auto& field : fields) {
+        result += std::to_string(field.tag) + "=" + field.value + '|';
+    }
+    return result;
+}
+
 // enforces ordering
 bool FixMessage::operator==(const FixMessage& other) const {
     if (other.fields.size() != fields.size()) {
