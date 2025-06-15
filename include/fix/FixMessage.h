@@ -12,6 +12,9 @@ public:
 
     std::optional<std::string> get(int tag) const;
     void addField(int tag, const std::string& value);
+    bool has(int tag) const;
+    std::string toString() const;
+    bool operator==(const FixMessage& other) const;
 };
 
 #endif
