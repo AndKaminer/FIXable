@@ -18,7 +18,7 @@ public:
     std::string toString() const;
     std::string toStringHR() const;
     bool operator==(const FixMessage& other) const;
-    bool isValid() const;
+    bool isValid(bool checksum = false) const;
 };
 
 #endif

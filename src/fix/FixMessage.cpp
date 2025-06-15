@@ -67,7 +67,7 @@ std::optional<FixField> FixMessage::getIthElement(size_t i) const {
     return fields[i];
 }
 
-bool FixMessage::isValid() const {
+bool FixMessage::isValid(bool checksum) const {
     // header check
     
     FixField invalidField;
@@ -83,5 +83,47 @@ bool FixMessage::isValid() const {
         return false;
     }
 
+    auto beginStr = get(8);
+    auto bodyLenStr = get(9);
+    auto msgType = get(35);
+    auto checksumStr = get(10);
+
+    int bodyLen = 0;
+    int checkSum = 0;
+
+    try {
+        bodyLen = std::stoi(*bodyLenStr);
+        checksum = std::stoi(*checksumStr);
+    } catch (...) {
+        return false;
+    }
+
+    std::string fixStr = toString();
+
+    size_t pos9 = fixStr.find("9=");
+    size_t startBody = fixStr.find('\x01', pos9);
+    ++startBody; // byte after first delimiter
+
+    size_t endBody = fixStr.rfind("10=") - 1;
+    int actualBodyLen = static_cast<int>(endBody - startBody + 1);
+    if (actualBodyLen != bodyLen) {
+        spdlog::warn("Body length mismatch: declared={}, actual={}", bodyLen, actualBodyLen);
+        return false;
+    }
+    
+    if (checksum) {
+        size_t checksumRangeEnd = endBody;
+
+        int computedChecksum = 0;
+        for (size_t i = 0; i <= checksumRangeEnd; ++i) {
+            computedChecksum += static_cast<unsigned char>(fixStr[i]);
+        }
+        computedChecksum %= 256;
+
+        if (computedChecksum != checksum) {
+            spdlog::warn("Checksum mismatch: declared={}, computed={}", checksum, computedChecksum);
+            return false;
+        }
+    }
     return true;
 }
