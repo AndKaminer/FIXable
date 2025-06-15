@@ -1,5 +1,5 @@
 # FIXable
-A simple implementation of Financial Informatioin eXchange (FIX) 4.2
+A simple implementation of Financial Information eXchange (FIX) 4.2
 
 ## Outside Code
 - Logging done with spdlog
