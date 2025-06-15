@@ -10,8 +10,12 @@ class TCPServer {
 public:
     TCPServer(int maxConnections);
     bool start(uint16_t port);
-    void run();
     void stop();
+    int acceptClient();
+    std::string readFromClient();
+    bool writeToClient(const std::string& data);
+    bool isClientConnected() const;
+
 
 private:
     int serverSocket;
@@ -19,11 +23,7 @@ private:
     int maxConnections;
 
     bool initSocket(uint16_t port);
-    int acceptClient();
-    std::string readFromClient();
-    bool writeToClient(const std::string& data);
     void closeSockets();
-    bool isClientConnected() const;
 };
 
 #endif

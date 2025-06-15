@@ -99,23 +99,6 @@ void TCPServer::stop() {
     closeSockets();    
 }
 
-void TCPServer::run() {
-    if (serverSocket == -1) {
-        return;
-    }
-
-    acceptClient();
-    spdlog::info("Client connected");
-    std::string clientMessage { readFromClient() };
-    while (clientMessage != "") {
-        if (!writeToClient(clientMessage)) {
-            closeSockets();
-            return;
-        }
-        std::cout << clientMessage << std::endl;
-        clientMessage = readFromClient();
-    }
-}
 
 bool TCPServer::isClientConnected() const {
     return clientSocket != -1;
