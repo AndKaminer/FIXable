@@ -39,7 +39,7 @@ std::string FixMessage::toString() const {
 std::string FixMessage::toStringHR() const {
     std::string result;
     for (const auto& field : fields) {
-        result += std::to_string(field.tag) + "=" + field.value + '|';
+        result += std::to_string(field.tag) + "=" + field.value + '\n';
     }
     return result;
 }
@@ -53,6 +53,90 @@ bool FixMessage::operator==(const FixMessage& other) const {
     for (std::size_t i = 0; i < fields.size(); ++i) {
         if (fields[i].tag != other.fields[i].tag
             or fields[i].value != other.fields[i].value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::optional<FixField> FixMessage::getIthElement(size_t i) const {
+    if (i >= fields.size()) {
+        return std::nullopt;
+    }
+
+    return fields[i];
+}
+
+bool FixMessage::hasValidFormatFor(int tag) const {
+    switch (tag) {
+        default: return true;
+    }
+}
+
+bool FixMessage::isValid(bool checksum) const {
+    // header check
+    
+    FixField invalidField;
+    invalidField.tag = -1;
+    invalidField.value = "";
+
+    if (!(getIthElement(0).value_or(invalidField).tag == 8)) return false;
+    if (!(getIthElement(1).value_or(invalidField).tag == 9)) return false;
+    if (!(getIthElement(2).value_or(invalidField).tag == 35)) return false;
+
+    // footer check
+    if (!getIthElement(fields.size() - 1).value_or(invalidField).tag == 10) {
+        return false;
+    }
+
+    auto beginStr = get(8);
+    auto bodyLenStr = get(9);
+    auto msgType = get(35);
+    auto checksumStr = get(10);
+
+    int bodyLen = 0;
+    int checkSum = 0;
+
+    try {
+        bodyLen = std::stoi(*bodyLenStr);
+        checksum = std::stoi(*checksumStr);
+    } catch (...) {
+        return false;
+    }
+
+    // body length check
+    std::string fixStr = toString();
+
+    size_t pos9 = fixStr.find("9=");
+    size_t startBody = fixStr.find('\x01', pos9);
+    ++startBody; // byte after first delimiter
+
+    size_t endBody = fixStr.rfind("10=") - 1;
+    int actualBodyLen = static_cast<int>(endBody - startBody + 1);
+    if (actualBodyLen != bodyLen) {
+        spdlog::warn("Body length mismatch: declared={}, actual={}", bodyLen, actualBodyLen);
+        return false;
+    }
+
+    // checksum check
+    if (checksum) {
+        size_t checksumRangeEnd = endBody;
+
+        int computedChecksum = 0;
+        for (size_t i = 0; i <= checksumRangeEnd; ++i) {
+            computedChecksum += static_cast<unsigned char>(fixStr[i]);
+        }
+        computedChecksum %= 256;
+
+        if (computedChecksum != checksum) {
+            spdlog::warn("Checksum mismatch: declared={}, computed={}", checksum, computedChecksum);
+            return false;
+        }
+    }
+    
+    // valid format field
+    for (auto& it : fields) {
+        if (!hasValidFormatFor(it.tag)) {
             return false;
         }
     }

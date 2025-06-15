@@ -20,10 +20,6 @@ char FixParser::getDelimiter() const {
     return delimiter;
 }
 
-bool FixParser::isValid(const FixMessage& msg) {
-    return msg.has(8) && msg.has(9) && msg.has(35) && msg.has(10);
-}
-
 std::optional<FixMessage> FixParser::parseMessage(const std::string& inputString) {
     FixMessage fm = FixMessage();
     std::string token;
@@ -35,8 +31,8 @@ std::optional<FixMessage> FixParser::parseMessage(const std::string& inputString
             return std::nullopt;
         }
     }
-
-    if (!isValid(fm)) return std::nullopt;
+    
+    if (!fm.isValid()) return std::nullopt;
 
     return fm;
 }

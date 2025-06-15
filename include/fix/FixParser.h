@@ -18,7 +18,6 @@ public:
     FixParser(const char delimiter);
     std::optional<FixMessage> parseMessage(const std::string& inputString);
     char getDelimiter() const;
-    bool isValid(const FixMessage& msg);
 };
 
 #endif
