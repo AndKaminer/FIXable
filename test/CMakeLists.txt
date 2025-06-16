@@ -5,7 +5,7 @@ add_executable(FixEngineTests ${TEST_SOURCES})
 target_link_libraries(FixEngineTests
     gtest
     gtest_main
-    FixEngineList
+    FixEngineLib
     spdlog
 )
 
