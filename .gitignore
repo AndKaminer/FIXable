@@ -38,3 +38,8 @@ CMakeFiles/
 cmake_install.cmake
 Makefile
 _deps/
+test/*
+!(test/*.cpp)
+!(test/CMakeLists.txt)
+**/*.cmake
+Testing/
