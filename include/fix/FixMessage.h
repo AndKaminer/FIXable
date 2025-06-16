@@ -20,6 +20,7 @@ public:
     bool operator==(const FixMessage& other) const;
     bool isValid(bool checksum = false) const;
     bool hasValidFormatFor(int tag) const;
+    void removeField(int tag);
 };
 
 #endif
