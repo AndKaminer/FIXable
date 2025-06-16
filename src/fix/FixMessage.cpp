@@ -142,3 +142,10 @@ bool FixMessage::isValid(bool checksum) const {
     }
     return true;
 }
+
+void FixMessage::removeField(int tag) {
+    auto it = std::find_if(fields.begin(), fields.end(), [tag](const FixField& f) {
+        return f.tag == tag;
+    });
+    if (it != fields.end()) fields.erase(it);
+}
