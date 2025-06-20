@@ -9,3 +9,4 @@ A simple implementation of Financial Information eXchange (FIX) 4.2
 - Add threaded input stream with one thread writing TCP packets and another decoding
 FIX messages
 - Repeating tags
+- Automated style checking and testing on github
