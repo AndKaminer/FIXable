@@ -49,6 +49,7 @@ void FixSessionManager::run() {
             else {
                 spdlog::error("Failed to log FIX message:\n{}", fixRaw);
             }
+        server.writeToClient(fixRaw);
         }
     }
 }

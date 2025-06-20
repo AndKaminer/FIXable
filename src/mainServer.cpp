@@ -19,12 +19,11 @@ int main() {
     }
     spdlog::info("Client accepted");
 
-    const char delimiter { '|' };
+    const char delimiter { '\x01' };
 
     FixParser parser(delimiter);
     FixSessionManager session(server, parser, delimiter);
     session.run();
 
     server.stop();
-    return 0;
 }

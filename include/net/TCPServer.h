@@ -1,10 +1,18 @@
-#ifndef TCP_H
-#define TCP_H
+#ifndef TCPSERVER_H
+#define TCPSERVER_H
 
 #define TCPBUFFSIZE 1024
 
 #include <cstdint>
 #include <string>
+#include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <cstring>
+
+#include <spdlog/spdlog.h>
+
 
 class TCPServer {
 public:
@@ -15,7 +23,6 @@ public:
     std::string readFromClient();
     bool writeToClient(const std::string& data);
     bool isClientConnected() const;
-
 
 private:
     int serverSocket;

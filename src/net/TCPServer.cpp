@@ -1,12 +1,5 @@
 #include "net/TCPServer.h"
 
-#include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cstring>
-
-#include <spdlog/spdlog.h>
 
 TCPServer::TCPServer(int maxConnections) {
     this->maxConnections = maxConnections;
@@ -79,10 +72,14 @@ std::string TCPServer::readFromClient() {
 
 bool TCPServer::writeToClient(const std::string& data) {
     size_t strLength = data.length();
-    int bytesSent = send(clientSocket, data.c_str(), strLength, 0);
-    if (bytesSent == -1) {
-    spdlog::error("Error writing to client");
-        return false;
+    size_t totalSent = 0;
+    while (totalSent < strLength) {
+        ssize_t bytesSent = send(clientSocket, data.c_str() + totalSent, strLength - totalSent, 0);
+        if (bytesSent == -1) {
+        spdlog::error("Error writing to client");
+            return false;
+        }
+        totalSent += bytesSent;
     }
     return true;
 }

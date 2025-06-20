@@ -29,9 +29,14 @@ add_library(FixEngineLib STATIC ${FIX_SOURCES} ${FIX_HEADERS})
 target_include_directories(FixEngineLib PUBLIC include)
 target_link_libraries(FixEngineLib PUBLIC spdlog::spdlog)
 
-# Executable
-add_executable(fix_server.out src/main.cpp ${FIX_SOURCES})
+# Server executable
+add_executable(fix_server.out src/mainServer.cpp ${FIX_SOURCES})
 target_link_libraries(fix_server.out PRIVATE spdlog::spdlog)
+
+# Client executable
+add_executable(fix_client.out src/mainClient.cpp ${FIX_SOURCES})
+target_link_libraries(fix_client.out PRIVATE spdlog::spdlog)
+
 
 # Testing
 enable_testing()
