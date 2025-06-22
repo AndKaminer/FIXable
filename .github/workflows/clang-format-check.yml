@@ -12,3 +12,5 @@ jobs:
         clang-format-version: '13'
         check-path: '.'
         fallback-style: 'Google'
+    - name: Report Success
+      run: exit ${{ 0 if job.status == "success" else 1 }}
