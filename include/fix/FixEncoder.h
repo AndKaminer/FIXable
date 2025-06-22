@@ -1,5 +1,5 @@
-#ifndef FIXENCODER_H
-#define FIXENCODER_H
+#ifndef INCLUDE_FIX_FIXENCODER_H_
+#define INCLUDE_FIX_FIXENCODER_H_
 
 #include <sstream>
 #include <iomanip>
@@ -8,8 +8,9 @@
 #include "fix/FixMessage.h"
 
 class FixEncoder {
-public:
-    static std::string encode(const FixMessage& msg, const std::string& beginString, const char delimiter);
+ public:
+    static std::string encode(const FixMessage& msg,
+            const std::string& beginString, const char delimiter);
 };
 
-#endif
+#endif  // INCLUDE_FIX_FIXENCODER_H_

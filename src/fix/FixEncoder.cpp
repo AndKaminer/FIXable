@@ -1,9 +1,9 @@
 #include "fix/FixEncoder.h"
 
-std::string FixEncoder::encode(const FixMessage& msg, const std::string& beginString,
-        const char delimiter) {
+std::string FixEncoder::encode(const FixMessage& msg,
+        const std::string& beginString, const char delimiter) {
     FixMessage working = msg;
-    
+
     working.removeField(8);
     working.removeField(9);
     working.removeField(10);
@@ -15,7 +15,7 @@ std::string FixEncoder::encode(const FixMessage& msg, const std::string& beginSt
     ss << "8=" << beginString << delimiter;
     ss << "9=" << bodyLength << delimiter;
     ss << body;
-    
+
     std::string fullWithoutChecksum = ss.str();
 
     int checksum = 0;
@@ -24,7 +24,8 @@ std::string FixEncoder::encode(const FixMessage& msg, const std::string& beginSt
     }
     checksum %= 256;
     std::ostringstream checksumField;
-    checksumField << "10=" << std::setw(3) << std::setfill('0') << checksum << delimiter;
+    checksumField << "10=" << std::setw(3) << std::setfill('0');
+    checksumField << checksum << delimiter;
 
     return fullWithoutChecksum + checksumField.str();
 }

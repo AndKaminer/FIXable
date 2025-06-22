@@ -2,14 +2,14 @@
 
 
 bool isConvertibleToInt(const std::string& str) {
-   try {
+    try {
        std::stoi(str);
-       return true;  // Conversion successful
-   } catch (const std::invalid_argument& e) {
-       return false; // Conversion failed (invalid format)
-   } catch (const std::out_of_range& e) {
-       return false; // Conversion failed (out of range)
-   }
+       return true;
+    } catch (const std::invalid_argument& e) {
+       return false;
+    } catch (const std::out_of_range& e) {
+       return false;
+    }
 }
 
 FixParser::FixParser(const char delimiter) {
@@ -20,24 +20,25 @@ char FixParser::getDelimiter() const {
     return delimiter;
 }
 
-std::optional<FixMessage> FixParser::parseMessage(const std::string& inputString) {
+std::optional<FixMessage> FixParser::parseMessage(
+        const std::string& inputString) {
     FixMessage fm = FixMessage();
     std::string token;
     std::stringstream ss(inputString);
     while (std::getline(ss, token, delimiter)) {
-        bool success = parseToken(token, fm);
+        bool success = parseToken(token, &fm);
         if (!success) {
             spdlog::error("Failed parsing token {}", token);
             return std::nullopt;
         }
     }
-    
+
     if (!fm.isValid()) return std::nullopt;
 
     return fm;
 }
 
-bool FixParser::parseToken(const std::string& token, FixMessage& fm) {
+bool FixParser::parseToken(const std::string& token, FixMessage* fm) {
     auto pos = token.find('=');
     if (pos == std::string::npos) return false;
 
@@ -47,6 +48,6 @@ bool FixParser::parseToken(const std::string& token, FixMessage& fm) {
     if (!isConvertibleToInt(tagStr)) return false;
     int tag = std::stoi(tagStr);
 
-    fm.addField(tag, value);
+    fm->addField(tag, value);
     return true;
 }

@@ -1,28 +1,27 @@
-#ifndef TCPCLIENT_H
-#define TCPCLIENT_H
+#ifndef INCLUDE_NET_TCPCLIENT_H_
+#define INCLUDE_NET_TCPCLIENT_H_
 
 #define TCPBUFFSIZE 1024
 
-#include <string>
+#include <spdlog/spdlog.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <cstring>
 #include <unistd.h>
 
-#include <spdlog/spdlog.h>
-
+#include <string>
+#include <cstring>
 
 class TCPClient {
-public:
-    TCPClient(int timeout);
+ public:
+    explicit TCPClient(int timeout);
     bool connectClient(const std::string& ip, uint16_t port);
     void disconnectClient();
     bool sendMessage(const std::string& message);
     std::string receiveMessage();
 
-private:
+ private:
     int sock;
     int to;
 };
 
-#endif
+#endif  // INCLUDE_NET_TCPCLIENT_H_

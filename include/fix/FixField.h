@@ -1,5 +1,5 @@
-#ifndef FIXFIELD_H
-#define FIXFIELD_H
+#ifndef INCLUDE_FIX_FIXFIELD_H_
+#define INCLUDE_FIX_FIXFIELD_H_
 
 #include <string>
 
@@ -8,4 +8,4 @@ struct FixField {
     std::string value;
 };
 
-#endif
+#endif  // INCLUDE_FIX_FIXFIELD_H_

@@ -15,7 +15,8 @@ std::optional<std::string> FixMessage::get(int tag) const {
 void FixMessage::addField(int tag, const std::string& value) {
     for (auto& it : fields) {
         if (it.tag == tag) {
-            spdlog::warn("Tag {} already found in message. Updating value", tag);
+            spdlog::warn("Tag {} already found in message. Updating value",
+                    tag);
             it.value = value;
             return;
         }
@@ -49,10 +50,10 @@ bool FixMessage::operator==(const FixMessage& other) const {
     if (other.fields.size() != fields.size()) {
         return false;
     }
-    
+
     for (std::size_t i = 0; i < fields.size(); ++i) {
         if (fields[i].tag != other.fields[i].tag
-            or fields[i].value != other.fields[i].value) {
+            || fields[i].value != other.fields[i].value) {
             return false;
         }
     }
@@ -75,7 +76,7 @@ bool FixMessage::hasValidFormatFor(int tag) const {
 
 bool FixMessage::isValid(bool checksum) const {
     // header check
-    
+
     FixField invalidField;
     invalidField.tag = -1;
     invalidField.value = "";
@@ -109,12 +110,13 @@ bool FixMessage::isValid(bool checksum) const {
 
     size_t pos9 = fixStr.find("9=");
     size_t startBody = fixStr.find('\x01', pos9);
-    ++startBody; // byte after first delimiter
+    ++startBody;  // byte after first delimiter
 
     size_t endBody = fixStr.rfind("10=") - 1;
     int actualBodyLen = static_cast<int>(endBody - startBody + 1);
     if (actualBodyLen != bodyLen) {
-        spdlog::warn("Body length mismatch: declared={}, actual={}", bodyLen, actualBodyLen);
+        spdlog::warn("Body length mismatch: declared={}, actual={}", bodyLen,
+                actualBodyLen);
         return false;
     }
 
@@ -129,11 +131,12 @@ bool FixMessage::isValid(bool checksum) const {
         computedChecksum %= 256;
 
         if (computedChecksum != checksum) {
-            spdlog::warn("Checksum mismatch: declared={}, computed={}", checksum, computedChecksum);
+            spdlog::warn("Checksum mismatch: declared={}, computed={}",
+                    checksum, computedChecksum);
             return false;
         }
     }
-    
+
     // valid format field
     for (auto& it : fields) {
         if (!hasValidFormatFor(it.tag)) {
@@ -144,7 +147,8 @@ bool FixMessage::isValid(bool checksum) const {
 }
 
 void FixMessage::removeField(int tag) {
-    auto it = std::find_if(fields.begin(), fields.end(), [tag](const FixField& f) {
+    auto it = std::find_if(fields.begin(), fields.end(),
+            [tag](const FixField& f) {
         return f.tag == tag;
     });
     if (it != fields.end()) fields.erase(it);

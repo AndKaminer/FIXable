@@ -1,17 +1,18 @@
-#ifndef FIXMESSAGE_H
-#define FIXMESSAGE_H
-
-#include "fix/FixField.h"
+#ifndef INCLUDE_FIX_FIXMESSAGE_H_
+#define INCLUDE_FIX_FIXMESSAGE_H_
 
 #include <vector>
 #include <optional>
+#include <string>
+
+#include "fix/FixField.h"
 
 class FixMessage {
-private:
+ private:
     std::vector<FixField> fields;
     std::optional<FixField> getIthElement(size_t i) const;
 
-public:
+ public:
     std::optional<std::string> get(int tag) const;
     void addField(int tag, const std::string& value);
     bool has(int tag) const;
@@ -23,4 +24,4 @@ public:
     void removeField(int tag);
 };
 
-#endif
+#endif  // INCLUDE_FIX_FIXMESSAGE_H_

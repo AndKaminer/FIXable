@@ -1,7 +1,5 @@
-#ifndef FIXPARSER_H
-#define FIXPARSER_H
-
-#include "fix/FixMessage.h"
+#ifndef INCLUDE_FIX_FIXPARSER_H_
+#define INCLUDE_FIX_FIXPARSER_H_
 
 #include <spdlog/spdlog.h>
 
@@ -9,15 +7,17 @@
 #include <optional>
 #include <sstream>
 
-class FixParser {
-private:
-    char delimiter;
-    bool parseToken(const std::string& token, FixMessage& fm);
+#include "fix/FixMessage.h"
 
-public:
-    FixParser(const char delimiter);
+class FixParser {
+ private:
+    char delimiter;
+    bool parseToken(const std::string& token, FixMessage* fm);
+
+ public:
+    explicit FixParser(const char delimiter);
     std::optional<FixMessage> parseMessage(const std::string& inputString);
     char getDelimiter() const;
 };
 
-#endif
+#endif  // INCLUDE_FIX_FIXPARSER_H_

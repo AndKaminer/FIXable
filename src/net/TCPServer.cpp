@@ -21,7 +21,8 @@ bool TCPServer::initSocket(uint16_t port) {
     int opt = 1;
     setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
-    if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
+    if (bind(serverSocket, (struct sockaddr*)&serverAddress,
+                sizeof(serverAddress)) == -1) {
         spdlog::error("Error binding socket");
         close(serverSocket);
         return false;
@@ -50,7 +51,8 @@ void TCPServer::closeSockets() {
 int TCPServer::acceptClient() {
     sockaddr_in clientAddress;
     socklen_t clientAddressSize = sizeof(clientAddress);
-    clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
+    clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress,
+            &clientAddressSize);
     if (clientSocket == -1) {
         spdlog::error("Error accepting connection");
         return -1;
@@ -74,7 +76,8 @@ bool TCPServer::writeToClient(const std::string& data) {
     size_t strLength = data.length();
     size_t totalSent = 0;
     while (totalSent < strLength) {
-        ssize_t bytesSent = send(clientSocket, data.c_str() + totalSent, strLength - totalSent, 0);
+        ssize_t bytesSent = send(clientSocket,
+                data.c_str() + totalSent, strLength - totalSent, 0);
         if (bytesSent == -1) {
         spdlog::error("Error writing to client");
             return false;
@@ -93,9 +96,8 @@ bool TCPServer::start(uint16_t port) {
 }
 
 void TCPServer::stop() {
-    closeSockets();    
+    closeSockets();
 }
-
 
 bool TCPServer::isClientConnected() const {
     return clientSocket != -1;

@@ -1,9 +1,8 @@
+#include <spdlog/spdlog.h>
+
 #include "net/TCPServer.h"
 #include "fix/FixParser.h"
 #include "fix/FixSessionManager.h"
-
-#include <spdlog/spdlog.h>
-
 
 int main() {
     TCPServer server(1);
@@ -22,7 +21,7 @@ int main() {
     const char delimiter { '\x01' };
 
     FixParser parser(delimiter);
-    FixSessionManager session(server, parser, delimiter);
+    FixSessionManager session(&server, &parser, delimiter);
     session.run();
 
     server.stop();

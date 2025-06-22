@@ -1,10 +1,10 @@
-#include "net/TCPClient.h"
-#include "fix/FixEncoder.h"
-#include "fix/FixMessage.h"
-
 #include <spdlog/spdlog.h>
 
 #include <string>
+
+#include "net/TCPClient.h"
+#include "fix/FixEncoder.h"
+#include "fix/FixMessage.h"
 
 int main() {
     TCPClient client(1);

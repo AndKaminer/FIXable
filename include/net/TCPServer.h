@@ -1,22 +1,21 @@
-#ifndef TCPSERVER_H
-#define TCPSERVER_H
+#ifndef INCLUDE_NET_TCPSERVER_H_
+#define INCLUDE_NET_TCPSERVER_H_
 
 #define TCPBUFFSIZE 1024
+
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <spdlog/spdlog.h>
 
 #include <cstdint>
 #include <string>
 #include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 #include <cstring>
 
-#include <spdlog/spdlog.h>
-
-
 class TCPServer {
-public:
-    TCPServer(int maxConnections);
+ public:
+    explicit TCPServer(int maxConnections);
     bool start(uint16_t port);
     void stop();
     int acceptClient();
@@ -24,7 +23,7 @@ public:
     bool writeToClient(const std::string& data);
     bool isClientConnected() const;
 
-private:
+ private:
     int serverSocket;
     int clientSocket;
     int maxConnections;
@@ -33,4 +32,4 @@ private:
     void closeSockets();
 };
 
-#endif
+#endif  // INCLUDE_NET_TCPSERVER_H_

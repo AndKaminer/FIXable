@@ -26,7 +26,8 @@ bool TCPClient::connectClient(const std::string& ip, uint16_t port) {
     timeout.tv_usec = 0;
     setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 
-    if (connect(sock, (struct sockaddr*)&serverAddress, (socklen_t)sizeof(serverAddress)) == -1) {
+    if (connect(sock, (struct sockaddr*)&serverAddress,
+                (socklen_t)sizeof(serverAddress)) == -1) {
         close(sock);
         spdlog::error("Error connecting to server");
         return false;
@@ -54,9 +55,11 @@ bool TCPClient::sendMessage(const std::string& message) {
     size_t strLength = message.length();
     size_t totalSent = 0;
     while (totalSent < strLength) {
-        ssize_t bytesSent = send(sock, message.c_str() + totalSent, strLength - totalSent, 0);
+        ssize_t bytesSent = send(sock, message.c_str() + totalSent,
+                strLength - totalSent, 0);
         if (bytesSent == -1) {
-            spdlog::error("Error sending message to server: {}", strerror(errno));
+            spdlog::error("Error sending message to server: {}",
+                    strerror(errno));
             return false;
         }
         totalSent += bytesSent;
