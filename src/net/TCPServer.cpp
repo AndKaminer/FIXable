@@ -86,9 +86,7 @@ bool TCPServer::writeToClient(const std::string& data) {
   return true;
 }
 
-bool TCPServer::start(uint16_t port) {
-  return initSocket(port);
-}
+bool TCPServer::start(uint16_t port) { return initSocket(port); }
 
 void TCPServer::stop() { closeSockets(); }
 
