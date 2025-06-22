@@ -1,6 +1,8 @@
 # FIXable
 Financial vendors, from exchanges to brokers to participants, use the Financial Information eXchange (FIX) protocol to exchange data. This is an implementation of (some of) the FIX 4.2 standard in C++.
 
+![image](assets/usage-diagram.png)
+
 ## How it's Built
 An overview of the technologies used to build this.
 
