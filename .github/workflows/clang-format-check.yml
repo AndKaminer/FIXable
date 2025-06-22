@@ -12,8 +12,3 @@ jobs:
         clang-format-version: '13'
         check-path: '.'
         fallback-style: 'Google'
-    - name: Report Success
-      if:  ${{ success() }}
-      run: exit 0
-    - name: Report Failure
-      run: exit 1
