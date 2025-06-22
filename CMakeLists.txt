@@ -41,3 +41,6 @@ target_link_libraries(fix_client.out PRIVATE spdlog::spdlog)
 # Testing
 enable_testing()
 add_subdirectory(test)
+
+# Custom dev tools (pretty much just clang-format)
+include(cmake/clang-cxx-dev-tools.cmake)
