@@ -13,4 +13,7 @@ jobs:
         check-path: '.'
         fallback-style: 'Google'
     - name: Report Success
-      run: exit ${{ 0 if job.status == "success" else 1 }}
+      if:  ${{ success() }}
+      run: exit 0
+    - name: Report Failure
+      run: exit 1
