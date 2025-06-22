@@ -20,6 +20,7 @@ Logging is obviously important for any project. I use [spdlog](https://github.co
 
 ### Code Style
 I use [Google's C++ conventions](https://google.github.io/styleguide/cppguide.html) because they are effective at maximizing readiability and minimizing unintended behavior, even if they can be fairly strict.
+I also try to follow the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) as well as I can.
 
 ### Enforcement
 Enforcement of style guidelines and testing is mandatory. The main branch is read-only, and to merge something into main, all tests must pass and [clang-format](https://clang.llvm.org/docs/ClangFormat.html) must pass using the Google style guide. This is set up with Github Actions
