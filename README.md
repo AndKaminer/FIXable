@@ -35,7 +35,7 @@ The project is still in progress, however I've already learned some lessons.
 If I had simply set up my pipelines before anything else, I wouldn't have had to refactor my entire project when I finally did set things up.
 
 ### Seperate stack layers as best you can
-When writing the first draft of this project, I included FIX logic in my TCP Server. This made it very difficult to divore the two, and I ended up having to rewrite both.
+When writing the first draft of this project, I included FIX logic in my TCP Server. This made it very difficult to divorce the two, and I ended up having to rewrite both.
 
 ## Feature Roadmap
 | Feature            | Status      | Tested? |
