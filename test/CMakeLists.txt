@@ -1,13 +1,17 @@
-file(GLOB TEST_SOURCES *.cpp)
+enable_testing()
 
-add_executable(FixEngineTests ${TEST_SOURCES})
+add_executable(test_fix_engine
+  FixParserTest.cpp
+  FixEncoderTest.cpp
+  FixMessageTest.cpp
+)
 
-target_link_libraries(FixEngineTests
-    gtest
-    gtest_main
-    FixEngineLib
-    spdlog
+target_link_libraries(test_fix_engine
+  FixEngineLib
+  GTest::gtest_main
+  GTest::gmock
+  spdlog::spdlog
 )
 
 include(GoogleTest)
-gtest_discover_tests(FixEngineTests)
+gtest_discover_tests(test_fix_engine)
