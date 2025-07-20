@@ -11,6 +11,7 @@ class FixEncoder {
  public:
   static std::string encode(const FixMessage& msg,
                             const std::string& beginString);
+
  private:
   static const char delimiter = '\x01';
 };

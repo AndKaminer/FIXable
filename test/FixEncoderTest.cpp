@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
+
 #include <regex>
 #include <string>
 
 #include "fix/FixEncoder.h"
-
 #include "fix/FixMessage.h"
 
 // Helper to extract tag value using regex
@@ -94,7 +94,7 @@ TEST(FixEncoderTest, ProducesCorrectChecksum) {
 }
 
 TEST(FixEncoderTest, EmptyMessageYieldsValidOutput) {
-  FixMessage msg; // No fields
+  FixMessage msg;  // No fields
 
   std::string encoded = FixEncoder::encode(msg, "FIX.4.2");
 
@@ -108,7 +108,7 @@ TEST(FixEncoderTest, EmptyMessageYieldsValidOutput) {
 
 TEST(FixEncoderTest, HandlesMultipleFieldsAndOrdering) {
   FixMessage msg;
-  msg.addField(35, "8"); // Execution report
+  msg.addField(35, "8");  // Execution report
   msg.addField(49, "BUY_SIDE");
   msg.addField(56, "SELL_SIDE");
   msg.addField(34, "2");
