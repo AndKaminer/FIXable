@@ -70,7 +70,7 @@ bool FixMessage::hasValidFormatFor(int tag) const {
   }
 }
 
-bool FixMessage::isValid(bool checksum) const {
+bool FixMessage::isValid(bool checksumFlag) const {
   // header check
 
   FixField invalidField;
@@ -96,7 +96,7 @@ bool FixMessage::isValid(bool checksum) const {
 
   try {
     bodyLen = std::stoi(*bodyLenStr);
-    checksum = std::stoi(*checksumStr);
+    checkSum = std::stoi(*checksumStr);
   } catch (...) {
     return false;
   }
@@ -116,8 +116,7 @@ bool FixMessage::isValid(bool checksum) const {
     return false;
   }
 
-  // checksum check
-  if (checksum) {
+  if (checksumFlag) {
     size_t checksumRangeEnd = endBody;
 
     int computedChecksum = 0;
@@ -126,8 +125,8 @@ bool FixMessage::isValid(bool checksum) const {
     }
     computedChecksum %= 256;
 
-    if (computedChecksum != checksum) {
-      spdlog::warn("Checksum mismatch: declared={}, computed={}", checksum,
+    if (computedChecksum != checkSum) {
+      spdlog::warn("Checksum mismatch: declared={}, computed={}", checkSum,
                    computedChecksum);
       return false;
     }

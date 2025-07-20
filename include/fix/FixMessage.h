@@ -19,7 +19,7 @@ class FixMessage {
   std::string toString() const;
   std::string toStringHR() const;
   bool operator==(const FixMessage& other) const;
-  bool isValid(bool checksum = false) const;
+  bool isValid(bool checksumFlag = false) const;
   bool hasValidFormatFor(int tag) const;
   void removeField(int tag);
 };
