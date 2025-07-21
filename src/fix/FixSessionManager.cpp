@@ -11,7 +11,8 @@ void FixSessionManager::handleFixMessage(const FixMessage& msg) {
     return;
   }
   spdlog::info("Received FIX message type {}:\n{}", *type, msg.toStringHR());
-  server->writeToClient(msg.toString());
+  FixMessageHandler* handler = new DefaultFixMessageHandler();
+  handler->handle(msg, this);
 }
 
 bool FixSessionManager::tryExtractFixMessage(std::string* messageOut) {
@@ -48,7 +49,23 @@ void FixSessionManager::run() {
       } else {
         spdlog::error("Failed to log FIX message:\n{}", fixRaw);
       }
-      server->writeToClient(fixRaw);
     }
   }
+}
+
+bool FixSessionManager::sendMessage(const FixMessage& msg) {
+  if (!server->isClientConnected()) {
+    spdlog::error("Client is not connected. Cannot send message.");
+    return false;
+  }
+  std::optional<std::string> beginString = msg.get(8);
+  if (!beginString.has_value()) {
+    spdlog::warn("Message has no 8 tag. Cannot send message.");
+    return false;
+  }
+
+  std::string msgText = FixEncoder::encode(msg, beginString.value());
+  spdlog::info("Sending message {} to client", msgText);
+  server->writeToClient(msgText);
+  return true;
 }

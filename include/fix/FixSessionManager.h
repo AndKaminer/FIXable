@@ -6,7 +6,9 @@
 #include <optional>
 #include <string>
 
+#include "fix/DefaultFixMessageHandler.h"
 #include "fix/FixMessage.h"
+#include "fix/FixMessageHandler.h"
 #include "fix/FixParser.h"
 #include "net/TCPServer.h"
 
@@ -14,6 +16,7 @@ class FixSessionManager {
  public:
   FixSessionManager(TCPServer* server, FixParser* parser, const char delimiter);
   void run();
+  bool sendMessage(const FixMessage& msg);
 
  private:
   TCPServer* server;
