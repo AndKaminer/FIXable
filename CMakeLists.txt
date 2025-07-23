@@ -28,8 +28,8 @@ FetchContent_MakeAvailable(googletest)
 # -----------------------------------------------------------------------------
 
 # --------------------------- Source Files ------------------------------------
-file(GLOB FIX_SOURCES src/fix/*.cpp src/net/*.cpp)
-file(GLOB FIX_HEADERS include/fix/*.h include/net/*.h)
+file(GLOB FIX_SOURCES src/fix/*.cpp src/net/*.cpp src/fix/handlers/*.cpp)
+file(GLOB FIX_HEADERS include/fix/*.h include/net/*.h include/fix/handlers/*.h)
 # -----------------------------------------------------------------------------
 
 # Make library

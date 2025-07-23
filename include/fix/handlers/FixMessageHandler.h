@@ -2,7 +2,6 @@
 #define INCLUDE_FIX_FIXMESSAGEHANDLER_H_
 
 #include "fix/FixMessage.h"
-#include "fix/FixSessionManager.h"
 
 class FixSessionManager;
 
