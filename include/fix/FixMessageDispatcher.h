@@ -1,11 +1,11 @@
 #ifndef INCLUDE_FIX_FIXMESSAGEDISPATCHER_H_
 #define INCLUDE_FIX_FIXMESSAGEDISPATCHER_H_
 
-#include <unordered_map>
+#include <spdlog/spdlog.h>
+
 #include <memory>
 #include <string>
-
-#include <spdlog/spdlog.h>
+#include <unordered_map>
 
 #include "fix/FixMessage.h"
 #include "fix/handlers/FixMessageHandler.h"
@@ -13,13 +13,13 @@
 class FixSessionManager;
 
 class FixMessageDispatcher {
-public:
+ public:
   void registerHandler(const std::string& msgType,
                        std::unique_ptr<FixMessageHandler> handler);
 
   void dispatch(const FixMessage& msg, FixSessionManager* session) const;
 
-private:
+ private:
   std::unordered_map<std::string, std::unique_ptr<FixMessageHandler>> handlers;
 };
 

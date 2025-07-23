@@ -6,12 +6,12 @@
 #include <optional>
 #include <string>
 
-#include "fix/handlers/LogonFixMessageHandler.h"
 #include "fix/FixEncoder.h"
 #include "fix/FixMessage.h"
 #include "fix/FixMessageDispatcher.h"
 #include "fix/FixParser.h"
 #include "fix/FixSessionState.h"
+#include "fix/handlers/LogonFixMessageHandler.h"
 #include "net/TCPServer.h"
 
 class FixSessionManager {

@@ -83,13 +83,11 @@ void FixSessionManager::handleLogon(const FixMessage& msg) {
   logonReply.addField(56, session.targetCompID);
   logonReply.addField(98, "0");
   logonReply.addField(108, "30");
-  
+
   sendMessage(logonReply);
 }
 
-bool FixSessionManager::isLoggedOn() {
-  return session.isLoggedOn;
-}
+bool FixSessionManager::isLoggedOn() { return session.isLoggedOn; }
 
 void FixSessionManager::registerHandlers() {
   dispatcher.registerHandler("A", std::make_unique<LogonFixMessageHandler>());

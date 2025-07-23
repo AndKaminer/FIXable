@@ -1,3 +1,6 @@
+#ifndef INCLUDE_FIX_FIXSESSIONSTATE_H_
+#define INCLUDE_FIX_FIXSESSIONSTATE_H_
+
 #include <chrono>
 #include <string>
 
@@ -9,3 +12,5 @@ struct FixSessionState {
   bool isLoggedOn = false;
   std::chrono::steady_clock::time_point lastReceived;
 };
+
+#endif  // INCLUDE_FIX_FIXSESSIONSTATE_H_

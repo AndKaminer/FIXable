@@ -8,7 +8,8 @@ class FixSessionManager;
 class FixMessageHandler {
  public:
   virtual ~FixMessageHandler() = default;
-  virtual void handle(const FixMessage& msg, FixSessionManager* sessionManager) = 0;
+  virtual void handle(const FixMessage& msg,
+                      FixSessionManager* sessionManager) = 0;
 };
 
 #endif  // INCLUDE_FIX_FIXMESSAGEHANDLER_H_
