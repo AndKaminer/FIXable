@@ -1,8 +1,7 @@
 #include "fix/FixEncoder.h"
 
 std::string FixEncoder::encode(const FixMessage& msg,
-                               const std::string& beginString,
-                               const char delimiter) {
+                               const std::string& beginString) {
   FixMessage working = msg;
 
   working.removeField(8);
