@@ -3,6 +3,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <chrono>
+#include <iomanip>
 #include <optional>
 #include <string>
 
@@ -12,6 +14,7 @@
 #include "fix/FixParser.h"
 #include "fix/FixSessionState.h"
 #include "fix/handlers/LogonFixMessageHandler.h"
+#include "fix/handlers/TestRequestFixMessageHandler.h"
 #include "net/TCPServer.h"
 
 class FixSessionManager {
@@ -21,6 +24,9 @@ class FixSessionManager {
   bool sendMessage(const FixMessage& msg);
   bool isLoggedOn();
   void handleLogon(const FixMessage& msg);
+  int getNextOutgoingSeqNum();
+  std::string getTargetCompID() const;
+  std::string getSenderCompID() const;
 
  private:
   TCPServer* server;
@@ -33,6 +39,7 @@ class FixSessionManager {
   void handleFixMessage(const FixMessage& msg);
   bool tryExtractFixMessage(std::string* messageOut);
   void registerHandlers();
+  std::string getUTCTimestamp();
 };
 
 #endif  // INCLUDE_FIX_FIXSESSIONMANAGER_H_

@@ -60,7 +60,9 @@ bool FixSessionManager::sendMessage(const FixMessage& msg) {
     return false;
   }
 
-  std::string msgText = FixEncoder::encode(msg, beginString.value());
+  FixMessage toSend = msg;
+  toSend.addField(52, getUTCTimestamp());
+  std::string msgText = FixEncoder::encode(toSend, beginString.value());
   spdlog::info("Sending message {} to client", msgText);
   server->writeToClient(msgText);
   return true;
@@ -92,4 +94,21 @@ bool FixSessionManager::isLoggedOn() { return session.isLoggedOn; }
 
 void FixSessionManager::registerHandlers() {
   dispatcher.registerHandler("A", std::make_unique<LogonFixMessageHandler>());
+  dispatcher.registerHandler("1", std::make_unique<TestRequestFixMessageHandler>());
 }
+
+std::string FixSessionManager::getUTCTimestamp() {
+  std::ostringstream oss;
+  auto now = std::chrono::system_clock::now();
+  std::time_t t = std::chrono::system_clock::to_time_t(now);
+  std::tm tm = *gmtime(&t);
+  oss << std::put_time(&tm, "%Y%m%d-%H:%M:%S");
+  return oss.str();
+}
+
+int FixSessionManager::getNextOutgoingSeqNum() {
+  return session.outgoingSeqNum++;
+}
+
+std::string FixSessionManager::getSenderCompID() const { return session.senderCompID; }
+std::string FixSessionManager::getTargetCompID() const { return session.targetCompID; }
