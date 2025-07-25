@@ -82,7 +82,7 @@ bool FixMessage::isValid(bool checksumFlag) const {
   if (!(getIthElement(2).value_or(invalidField).tag == 35)) return false;
 
   // footer check
-  if (!getIthElement(fields.size() - 1).value_or(invalidField).tag == 10) {
+  if (getIthElement(fields.size() - 1).value_or(invalidField).tag != 10) {
     return false;
   }
 

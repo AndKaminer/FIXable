@@ -28,7 +28,7 @@ std::optional<FixMessage> FixParser::parseMessage(
     }
   }
 
-  if (!fm.isValid()) return std::nullopt;
+  if (!fm.isValid(true)) return std::nullopt;
 
   return fm;
 }

@@ -77,6 +77,7 @@ void FixSessionManager::handleLogon(const FixMessage& msg) {
   spdlog::info("Logon from {} -> {}", sender, target);
 
   FixMessage logonReply;
+  logonReply.addField(8, "FIX.4.2");
   logonReply.addField(35, "A");
   logonReply.addField(34, std::to_string(session.outgoingSeqNum++));
   logonReply.addField(49, session.senderCompID);

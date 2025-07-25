@@ -17,7 +17,7 @@ int main() {
   fm.addField(12, "Hello!");
   fm.addField(25, "Goodbye!");
 
-  std::string message = FixEncoder().encode(fm, "");
+  std::string message = FixEncoder().encode(fm, "Fix.4.2");
   client.sendMessage(message);
   spdlog::info(client.receiveMessage());
 
